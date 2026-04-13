@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spam Detector</title>
+</head>
+<body>
+
+<h1>Spam Message Detector</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="message" placeholder="Enter message">
+    <button type="submit">Check</button>
+</form>
+
+{% if result %}
+    <h2>{{ result }}</h2>
+{% endif %}
+
+</body>
+</html>
