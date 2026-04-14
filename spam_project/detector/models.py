@@ -1,16 +1,16 @@
-from django.db import models
 import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB
 
-df = pd.read_csv("spam.csv", encoding='latin-1')
-df = df[['v1','v2']]
-df.columns = ['label','message']
-df['label'] = df['label'].map({'ham':0, 'spam':1})
+df=pd.read_csv("titanic.csv")
 
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(df['message'])
-y = df['label']
+df = df[['Survived','Pclass','Sex','Age','Fare']]
 
-model = MultinomialNB()
-model.fit(X, y)
+df['Age'].fillna(df['Age'].mean(),inplace = True)
+
+df['Sex'] = df['Sex'].map({'male' : 0,'female': 1})
+
+X = df[['Pclass', 'Sex', 'Age', 'Fare']]  
+y = df['Survived']
+
+model = GaussianNB()
+model.fit(X,y)

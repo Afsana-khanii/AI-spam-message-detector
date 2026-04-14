@@ -1,20 +1,21 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
-from .models import model, vectorizer
+from .models import model
 
 def home(request):
     result = None
 
     if request.method == "POST":
-        message = request.POST.get("message")
-        msg_vector = vectorizer.transform([message])
-        prediction = model.predict(msg_vector)
+        pclass = int(request.POST.get("pclass"))
+        sex = int(request.POST.get("sex"))
+        age = float(request.POST.get("age"))
+        fare = float(request.POST.get("fare"))
+
+        prediction = model.predict([[pclass, sex, age, fare]])
 
         if prediction[0] == 1:
-            result = "🚨 Spam"
+            result = "✅ Survived"
         else:
-            result = "✅ Not Spam"
+            result = "❌ Not Survived"
 
     return render(request, "home.html", {"result": result})
+
